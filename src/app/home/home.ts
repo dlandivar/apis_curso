@@ -14,7 +14,7 @@ import { ForumService } from '../forum-service';
 export class Home implements OnInit {
 
   //constructor(private forumService: ForumService) { }
-  forumService=inject (ForumService);
+  forumService = inject(ForumService);
 
   forum: forumPost = {
     userId: 0,
@@ -31,10 +31,16 @@ export class Home implements OnInit {
         this.forums = data;
         console.log('Forums loaded:', this.forums);
       });
-      console.log('algo');
+    console.log('algo');
   }
 
   onSubmit(forum: forumPost): void {
     console.log('Form submitted:', this.forum);
+    forum.userId = 1; // Set a default userId for the example
+    forum.id = this.forums.length + 1; // Simulate an ID for the new forum post
+    this.forumService.addForum(forum).subscribe(newForum => {
+      this.forums.unshift(newForum); // Add the new forum post to the beginning of the list
+      console.log('New forum added:', newForum);
+    });
   }
 }
